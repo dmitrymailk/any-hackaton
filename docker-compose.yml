@@ -6,6 +6,7 @@ services:
       # определяем стартовую дирректорию нашего контейнера, откуда будут выполняться команды, в нашем случае это
       # та же дирректория где лежит Dockerfile
       context: .
+      dockerfile: Dockerfile
     ports:
       - "8000:8000"
     volumes:
@@ -16,7 +17,8 @@ services:
       - DEBUG=1
   proxy:
     build:
-      context: ./proxy
+      context: .
+      dockerfile: Dockerfile_proxy
     volumes: 
       - static_data:/static
     ports:

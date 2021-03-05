@@ -13,7 +13,11 @@ RUN \
 # RUN apk del .tmp
 
 RUN mkdir /app
+RUN mkdir /dist
+
 COPY ./app /app
+COPY ./frontend/hack_project/dist /dist
+
 WORKDIR /app
 COPY ./scripts /scripts
 
@@ -23,6 +27,7 @@ RUN chmod +x /scripts/*
 
 RUN adduser -D user
 RUN chmod -R 777 /usr/local/lib/python3.8/site-packages/
+RUN chmod -R 777 /dist/
 # RUN chown -R user:user /vol
 # RUN chmod -R 755 /vol/web
 
