@@ -4,17 +4,25 @@ services:
   app:
     build:
       context: .
-    # volumes: 
-    #   - static_data:/vol/web
+    # volumes:
+    #   # это позволит нам менять содердимое докера в реальном времени, это нужно для разработки, не для продакшена
+    #   - ./app:/app
+      dockerfile: Dockerfile-deploy
+    ports:
+      - "8000:8000"
     environment: 
       - SECRET_KEY=secretkey123
       - DEBUG=1
       - ALLOWED_HOSTS=*
+    # command: sh -c "python manage.py runserver 0.0.0.0:8000"
+    
   proxy:
     build:
       context: ./proxy
+      dockerfile: Dockerfile
     volumes: 
       - static_data:/static
+      # - ./default.conf:/etc/nginx/conf.d/default.conf
     ports:
       - "80:80"
     depends_on: 

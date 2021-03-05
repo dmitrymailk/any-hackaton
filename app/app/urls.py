@@ -18,8 +18,17 @@ from django.urls import path, include, re_path
 
 from hello_world import views
 
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+
 urlpatterns = [
     re_path(r'^jet/', include(('jet.urls', 'jet'))),
     re_path(r'^admin/', admin.site.urls),
-    path('', views.index)
+    path('', views.index),
+
+    # auth
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
