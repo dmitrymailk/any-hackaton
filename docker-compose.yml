@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+  app:
+    build:
+      # определяем стартовую дирректорию нашего контейнера, откуда будут выполняться команды, в нашем случае это
+      # та же дирректория где лежит Dockerfile
+      context: .
+    ports:
+      - "8000:8000"
+    volumes:
+      # это позволит нам менять содердимое докера в реальном времени, это нужно для разработки, не для продакшена
+      - ./app:/app
+    command: sh -c "python manage.py runserver 0.0.0.0:8000"
+    environment:
+      - DEBUG=1
+  proxy:
+    build:
+      context: ./proxy
+    volumes: 
+      - static_data:/static
+    ports:
+      - "80:80"
+    depends_on: 
+      - app
+
+volumes: 
+  static_data:
